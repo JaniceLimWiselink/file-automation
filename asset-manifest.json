@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/JaniceLimWiselink/file-automation/static/css/main.5cbb35eb.chunk.css",
+    "main.js": "/JaniceLimWiselink/file-automation/static/js/main.4ffd530e.chunk.js",
+    "main.js.map": "/JaniceLimWiselink/file-automation/static/js/main.4ffd530e.chunk.js.map",
+    "runtime-main.js": "/JaniceLimWiselink/file-automation/static/js/runtime-main.c4e779ff.js",
+    "runtime-main.js.map": "/JaniceLimWiselink/file-automation/static/js/runtime-main.c4e779ff.js.map",
+    "static/js/2.34315dfc.chunk.js": "/JaniceLimWiselink/file-automation/static/js/2.34315dfc.chunk.js",
+    "static/js/2.34315dfc.chunk.js.map": "/JaniceLimWiselink/file-automation/static/js/2.34315dfc.chunk.js.map",
+    "index.html": "/JaniceLimWiselink/file-automation/index.html",
+    "precache-manifest.184f889342f28e46d1ad9e3845f84586.js": "/JaniceLimWiselink/file-automation/precache-manifest.184f889342f28e46d1ad9e3845f84586.js",
+    "service-worker.js": "/JaniceLimWiselink/file-automation/service-worker.js",
+    "static/css/main.5cbb35eb.chunk.css.map": "/JaniceLimWiselink/file-automation/static/css/main.5cbb35eb.chunk.css.map",
+    "static/js/2.34315dfc.chunk.js.LICENSE.txt": "/JaniceLimWiselink/file-automation/static/js/2.34315dfc.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/JaniceLimWiselink/file-automation/static/media/AirbnbCerealMedium.d9fb3054.ttf"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.c4e779ff.js",
+    "static/js/2.34315dfc.chunk.js",
+    "static/css/main.5cbb35eb.chunk.css",
+    "static/js/main.4ffd530e.chunk.js"
+  ]
+}
