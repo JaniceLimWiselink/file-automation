@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/JaniceLimWiselink/file-automation/static/css/main.5cbb35eb.chunk.css",
-    "main.js": "/JaniceLimWiselink/file-automation/static/js/main.4ffd530e.chunk.js",
-    "main.js.map": "/JaniceLimWiselink/file-automation/static/js/main.4ffd530e.chunk.js.map",
-    "runtime-main.js": "/JaniceLimWiselink/file-automation/static/js/runtime-main.c4e779ff.js",
-    "runtime-main.js.map": "/JaniceLimWiselink/file-automation/static/js/runtime-main.c4e779ff.js.map",
-    "static/js/2.34315dfc.chunk.js": "/JaniceLimWiselink/file-automation/static/js/2.34315dfc.chunk.js",
-    "static/js/2.34315dfc.chunk.js.map": "/JaniceLimWiselink/file-automation/static/js/2.34315dfc.chunk.js.map",
-    "index.html": "/JaniceLimWiselink/file-automation/index.html",
-    "precache-manifest.184f889342f28e46d1ad9e3845f84586.js": "/JaniceLimWiselink/file-automation/precache-manifest.184f889342f28e46d1ad9e3845f84586.js",
-    "service-worker.js": "/JaniceLimWiselink/file-automation/service-worker.js",
-    "static/css/main.5cbb35eb.chunk.css.map": "/JaniceLimWiselink/file-automation/static/css/main.5cbb35eb.chunk.css.map",
-    "static/js/2.34315dfc.chunk.js.LICENSE.txt": "/JaniceLimWiselink/file-automation/static/js/2.34315dfc.chunk.js.LICENSE.txt",
-    "static/media/index.css": "/JaniceLimWiselink/file-automation/static/media/AirbnbCerealMedium.d9fb3054.ttf"
+    "main.css": "/file-automation/static/css/main.b04e2a8b.chunk.css",
+    "main.js": "/file-automation/static/js/main.bfe1748d.chunk.js",
+    "main.js.map": "/file-automation/static/js/main.bfe1748d.chunk.js.map",
+    "runtime-main.js": "/file-automation/static/js/runtime-main.8d4b37e7.js",
+    "runtime-main.js.map": "/file-automation/static/js/runtime-main.8d4b37e7.js.map",
+    "static/js/2.34315dfc.chunk.js": "/file-automation/static/js/2.34315dfc.chunk.js",
+    "static/js/2.34315dfc.chunk.js.map": "/file-automation/static/js/2.34315dfc.chunk.js.map",
+    "index.html": "/file-automation/index.html",
+    "precache-manifest.d8d942912f7e7b35c27ce62b31bb5acc.js": "/file-automation/precache-manifest.d8d942912f7e7b35c27ce62b31bb5acc.js",
+    "service-worker.js": "/file-automation/service-worker.js",
+    "static/css/main.b04e2a8b.chunk.css.map": "/file-automation/static/css/main.b04e2a8b.chunk.css.map",
+    "static/js/2.34315dfc.chunk.js.LICENSE.txt": "/file-automation/static/js/2.34315dfc.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/file-automation/static/media/AirbnbCerealMedium.d9fb3054.ttf"
   },
   "entrypoints": [
-    "static/js/runtime-main.c4e779ff.js",
+    "static/js/runtime-main.8d4b37e7.js",
     "static/js/2.34315dfc.chunk.js",
-    "static/css/main.5cbb35eb.chunk.css",
-    "static/js/main.4ffd530e.chunk.js"
+    "static/css/main.b04e2a8b.chunk.css",
+    "static/js/main.bfe1748d.chunk.js"
   ]
 }
