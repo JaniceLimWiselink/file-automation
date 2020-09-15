@@ -38,7 +38,6 @@ const Nexus = () => {
 
     const parseDate = (input) => {
         if (typeof input === 'number') {
-            console.log(input)
             return excelDateToJSDate(input)
         }
         let da = input.split('/')
@@ -97,8 +96,6 @@ const Nexus = () => {
                 }
                 let balanceQtyCellRef = XLSX.utils.encode_cell({ r: er - 1, c: 19 })
                 let balanceQtyCommitCellRef = XLSX.utils.encode_cell({ r: er - 1, c: 20 })
-
-
 
                 ws[balanceQtyCellRef] = { f: balanceQty }
                 ws[balanceQtyCommitCellRef] = { f: balanceQtyCommit }

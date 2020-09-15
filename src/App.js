@@ -54,7 +54,7 @@ function App() {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Switch>
-          <Route exact path="/" render={() => <div>Home Page</div>} />
+          <Route exact path="/" render={() => <div>WISELINK</div>} />
           <Route path="/nexus" render={() => <Nexus />} />
         </Switch>
       </main>
