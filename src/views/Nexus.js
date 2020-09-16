@@ -14,6 +14,17 @@ const Nexus = () => {
 
     const [headers, setHeaders] = useState([])
 
+    const [mpn, setMpns] = useState({})
+
+    const readMpns = (data) => {
+        let renderedData = XLSX.read(data, { type: 'binary' });
+        const dataParse = XLSX.utils.sheet_to_json(renderedData.Sheets[renderedData.SheetNames[0]], { header: 1 });
+        for (let i = 1; i < dataParse.length; i++) {
+            mpn[dataParse[i][0]] = dataParse[i][1]
+        }
+        console.log(mpn)
+    }
+
     const readRaw = (data) => {
         let renderedData = XLSX.read(data, { type: 'binary' });
         const dataParse = XLSX.utils.sheet_to_json(renderedData.Sheets[renderedData.SheetNames[0]], { header: 1 });
@@ -28,7 +39,6 @@ const Nexus = () => {
         for (let i = 1; i < dataParse.length; i++) {
             // Filter JIT
             if (dataParse[i][5] == "JIT") {
-                console.log(dataParse[i])
                 dataParse[i][3] = parseDate(dataParse[i][3])
                 dataParse[i][12] = parseDate(dataParse[i][12])
                 dataParse[i][15] = parseDate(dataParse[i][15])
@@ -52,7 +62,8 @@ const Nexus = () => {
         reader.onload = function (e) {
             if (fileNo === 1)
                 readRaw(e.target.result)
-            // else if (fileNo === 2)
+            else if (fileNo === 2)
+                readMpns(e.target.result)
 
             // else
         };
@@ -77,7 +88,19 @@ const Nexus = () => {
             wbData.push({})
         }
 
-        const ws = XLSX.utils.json_to_sheet(wbData, { header: headers })
+        wbData.forEach((row, i) => {
+            if (Object.keys(wbData[i]).length == 0) {
+                // has a data row above - indicates that this is the first row after a block of data
+                if (Object.keys(wbData[i - 1]).length > 1) {
+                    if (wbData[i - 1]['PlexusPartNumber'] in mpn) {
+                        row['PlexusPartNumber'] = mpn[wbData[i - 1]['PlexusPartNumber']]
+                    }
+                }
+            }
+        })
+
+        let ws = XLSX.utils.json_to_sheet(wbData, { header: headers })
+
         ws['!ref'] = XLSX.utils.encode_range({
             s: { r: 0, c: 0 },
             e: { r: wbData.length + 1, c: 21 }
