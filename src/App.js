@@ -6,6 +6,8 @@ import Drawer from '@material-ui/core/Drawer';
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Route, Switch } from 'react-router-dom';
 import Nexus from './views/Nexus';
+import Compare from './views/Compare.js';
+import Compile from './views/Compile.js';
 
 
 const drawerWidth = 240;
@@ -13,6 +15,7 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    fontFamily:'AirbnbCereal-Medium'
   },
   appBar: {
     width: `calc(100% - ${drawerWidth}px)`,
@@ -39,7 +42,6 @@ function App() {
   return (
     <div className={classes.root}>
       <CssBaseline />
-
       <nav className={classes.drawer} aria-label="navigation-tabs">
         <Drawer
           classes={{
@@ -54,8 +56,10 @@ function App() {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Switch>
-          <Route exact path="/" render={() => <div>WISELINK</div>} />
-          <Route path="/nexus" render={() => <Nexus />} />
+          {/* <Route exact path="/file-automation" render={() => <div>WISELINK</div>} /> */}
+          <Route path="/file-automation/plexus" render={() => <Nexus />} />
+          <Route path="/file-automation/compare" render={() => <Compare />} />
+          <Route path="/file-automation/compile" render={() => <Compile />} />
         </Switch>
       </main>
     </div>

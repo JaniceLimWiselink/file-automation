@@ -38,6 +38,8 @@ export const useStyles = makeStyles({
         fontSize: '20px',
         paddingTop: '5px',
         paddingBottom: '5px',
+        width: '100%',
+        textAlign: 'left'
     },
     inputWrapper: {
         margin: '20px 0px'
@@ -49,10 +51,10 @@ export const useStyles = makeStyles({
     download: {
         backgroundColor: 'darkorange',
         color: 'white',
-        width: '250px',
-        height: '50px',
+        width: '200px',
+        height: '60px',
         borderRadius: '5px',
-        fontSize: '1em',
+        fontSize: '1.1em',
         border: 'none',
         transition: '1s',
         fontWeight: 'bold',
@@ -75,9 +77,10 @@ export const useStyles = makeStyles({
     fileUploadWrapper: {
         flex: 1,
         display: 'flex',
-        alignItems: 'center',
+        // alignItems: 'center',
         justifyContent: 'center',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        padding: '10px',
     },
     fileUpload: {
         height: '60px',

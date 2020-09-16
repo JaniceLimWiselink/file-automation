@@ -27,7 +27,8 @@ const Sidebar = (props) => {
 
     return (
         <div>
-            <div className={classes.toolbar} />
+            <img alt="Sample Format" src={require('../assets/logo.jpg')} width={"100%"} />
+            {/* <div className={classes.toolbar} /> */}
             <List>
                 {routes.map((route, index) => (
                     <ListItem key={route.name} component={Link} to={route.path}>

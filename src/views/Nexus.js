@@ -28,6 +28,7 @@ const Nexus = () => {
         for (let i = 1; i < dataParse.length; i++) {
             // Filter JIT
             if (dataParse[i][5] == "JIT") {
+                console.log(dataParse[i])
                 dataParse[i][3] = parseDate(dataParse[i][3])
                 dataParse[i][12] = parseDate(dataParse[i][12])
                 dataParse[i][15] = parseDate(dataParse[i][15])
@@ -111,15 +112,15 @@ const Nexus = () => {
 
     return (
         <div className={classes.root}>
-            <span className={classes.label} style={{ fontSize: '30px', marginBottom: '30px' }}>
-                Upload Excel Files Here
+            <span style={{ fontSize: '30px', marginBottom: '30px', textAlign: 'center', fontWeight: 'bold' }}>
+                Plexus Formatter
             </span>
             <div className={classes.fileUploadContainer} style={{ flexDirection: 'row', width: '60%' }}>
-                <div className={classes.fileUploadWrapper} style={{ width: '30%' }}>
+                <div className={classes.fileUploadWrapper}>
                     <span className={classes.label}>Raw File</span>
                     <Input onChange={(event) => onFileChange(event, 1)} type="file" className={classes.fileUpload} />
                 </div>
-                <div className={classes.fileUploadWrapper} style={{ width: '30%' }}>
+                <div className={classes.fileUploadWrapper}>
                     <span className={classes.label}>MPN List</span>
                     <Input onChange={(event) => onFileChange(event, 2)} type="file" className={classes.fileUpload} />
                 </div>
