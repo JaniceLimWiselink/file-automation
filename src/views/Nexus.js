@@ -136,7 +136,7 @@ const Nexus = () => {
     return (
         <div className={classes.root}>
             <span style={{ fontSize: '30px', marginBottom: '30px', textAlign: 'center', fontWeight: 'bold' }}>
-                Plexus Formatter
+                Plexus JIT Program
             </span>
             <div className={classes.fileUploadContainer} style={{ flexDirection: 'row', width: '60%' }}>
                 <div className={classes.fileUploadWrapper}>

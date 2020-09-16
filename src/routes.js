@@ -10,7 +10,7 @@ import CompareIcon from '@material-ui/icons/Compare';
 const routes = [
     {
         path: '/file-automation/plexus',
-        name: 'Plexus Compiler',
+        name: 'Plexus JIT Program',
         icon: <IoMdBook size={25} style={{ color: '#fff' }} />,
         component: Nexus
     },
