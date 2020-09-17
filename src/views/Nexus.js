@@ -118,15 +118,15 @@ const Nexus = () => {
                     balanceQty = `T${er - 1}-N${er}+O${er}`
                     balanceQtyCommit = `U${er - 1}-N${er}+O${er}+R${er}`
                 }
-                let marker = `IF(U${er-1}>=0, IF(U${er}<=0, "<-- Highlight row",""),"")`
+                // let marker = `IF(U${er-1}>=0, IF(U${er}<=0, "<-- Highlight row",""),"")`
 
                 let balanceQtyCellRef = XLSX.utils.encode_cell({ r: er - 1, c: 19 })
                 let balanceQtyCommitCellRef = XLSX.utils.encode_cell({ r: er - 1, c: 20 })
-                let markerCellRef = XLSX.utils.encode_cell({ r: er - 1, c: 21 })
+                // let markerCellRef = XLSX.utils.encode_cell({ r: er - 1, c: 21 })
 
                 ws[balanceQtyCellRef] = { f: balanceQty }
                 ws[balanceQtyCommitCellRef] = { f: balanceQtyCommit }
-                ws[markerCellRef] = { f: marker }
+                // ws[markerCellRef] = { f: marker }
             }
         })
 
