@@ -118,11 +118,15 @@ const Nexus = () => {
                     balanceQty = `T${er - 1}-N${er}+O${er}`
                     balanceQtyCommit = `U${er - 1}-N${er}+O${er}+R${er}`
                 }
+                let marker = `IF(U${er-1}>=0, IF(U${er}<=0, "<-- Highlight row",""),"")`
+
                 let balanceQtyCellRef = XLSX.utils.encode_cell({ r: er - 1, c: 19 })
                 let balanceQtyCommitCellRef = XLSX.utils.encode_cell({ r: er - 1, c: 20 })
+                let markerCellRef = XLSX.utils.encode_cell({ r: er - 1, c: 21 })
 
                 ws[balanceQtyCellRef] = { f: balanceQty }
                 ws[balanceQtyCommitCellRef] = { f: balanceQtyCommit }
+                ws[markerCellRef] = { f: marker }
             }
         })
 
@@ -140,7 +144,7 @@ const Nexus = () => {
             </span>
             <div className={classes.fileUploadContainer} style={{ flexDirection: 'row', width: '60%' }}>
                 <div className={classes.fileUploadWrapper}>
-                    <span className={classes.label}>Raw File</span>
+                    <span className={classes.label}>Plexus forecast file</span>
                     <Input onChange={(event) => onFileChange(event, 1)} type="file" className={classes.fileUpload} />
                 </div>
                 <div className={classes.fileUploadWrapper}>
