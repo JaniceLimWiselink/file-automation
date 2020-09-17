@@ -110,8 +110,8 @@ const Nexus = () => {
             let er = i + 2
             let balanceQty = ''
             let balanceQtyCommit = ''
-            if (Object.keys(wbData[i]).length != 0) {
-                if (i == 0 || (Object.keys(wbData[i - 1]).length === 0 && Object.keys(wbData[i - 2]).length === 0)) {
+            if (Object.keys(wbData[i]).length > 1) {
+                if (i == 0 || (Object.keys(wbData[i - 1]).length <= 1 && Object.keys(wbData[i - 2]).length <= 1)) {
                     balanceQty = `H${er}+I${er}+O${er}-N${er}`
                     balanceQtyCommit = `H${er}+I${er}+O${er}+R${er}-N${er}`
                 } else {
