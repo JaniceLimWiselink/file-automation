@@ -22,7 +22,7 @@ const Nexus = () => {
         for (let i = 1; i < dataParse.length; i++) {
             mpn[dataParse[i][0]] = dataParse[i][1]
         }
-        console.log(mpn)
+        // console.log(mpn)
     }
 
     const readRaw = (data) => {
@@ -45,8 +45,7 @@ const Nexus = () => {
                 rowInfo.push(dataParse[i])
             }
         }
-
-        console.log(rowInfo)
+        // console.log(rowInfo)
     }
 
     const parseDate = (input) => {
