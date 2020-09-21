@@ -45,9 +45,15 @@ const Nexus = () => {
                 rowInfo.push(dataParse[i])
             }
         }
+
+        console.log(rowInfo)
     }
 
     const parseDate = (input) => {
+        console.log(input, typeof input)
+        if(input === undefined){
+            return null
+        }
         if (typeof input === 'number') {
             return excelDateToJSDate(input)
         }
