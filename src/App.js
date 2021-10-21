@@ -8,6 +8,10 @@ import { Route, Switch } from 'react-router-dom';
 import Nexus from './views/Nexus';
 import Compare from './views/Compare.js';
 import Compile from './views/Compile.js';
+import PlexusForecast from './views/PlexusForecast.js';
+import JabilForecast from './views/JabilForecast.js';
+import PlexusEmail from './views/PlexusEmail.js';
+import Rescheduler from './views/Rescheduler.js';
 
 
 const drawerWidth = 240;
@@ -57,9 +61,13 @@ function App() {
         <div className={classes.toolbar} />
         <Switch>
           {/* <Route exact path="/file-automation" render={() => <div>WISELINK</div>} /> */}
-          <Route path="/file-automation/plexus" render={() => <Nexus />} />
-          <Route path="/file-automation/compare" render={() => <Compare />} />
-          <Route path="/file-automation/compile" render={() => <Compile />} />
+          <Route path="/file-automation/plexus/jit" render={() => <Nexus />} />
+          <Route path="/file-automation/plexus/forecast" render={() => <PlexusForecast />} />
+          <Route path="/file-automation/plexus/email" render={() => <PlexusEmail />} />
+          <Route path="/file-automation/jabil/forecast" render={() => <JabilForecast />} />
+          <Route path="/file-automation/ecommerce/compare" render={() => <Compare />} />
+          <Route path="/file-automation/ecommerce/compile" render={() => <Compile />} />
+          <Route path="/file-automation/ecommerce/reschedule" render={() => <Rescheduler />} />
         </Switch>
       </main>
     </div>

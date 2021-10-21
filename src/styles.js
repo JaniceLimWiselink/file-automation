@@ -86,5 +86,13 @@ export const useStyles = makeStyles({
         height: '60px',
         backgroundColor: 'white',
         border: 'none',
+        flex: 1,
+        margin: '10px'
+    },
+    inputContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
     }
 })
