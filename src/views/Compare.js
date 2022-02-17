@@ -20,77 +20,73 @@ const Compare = () => {
     // stock items to write to file
     const [stock, setStock] = useState({})
 
-    const parseStockAvailbleFile = (data) => {
+    const [dd, setDD] = useState({})
+
+    const parseCustomerPriceList = (data) => {
         let renderedData = XLSX.read(data, { type: 'binary' });
         const dataParse = XLSX.utils.sheet_to_json(renderedData.Sheets[renderedData.SheetNames[0]], { header: 1 });
+        console.log(dataParse)
 
-        setExchange({
-            EURO: dataParse[3][2],
-            USD: dataParse[4][2]
-        })
-        for (let i = 2; i < dataParse[0].length; i++) {
-            let quantity = parseInt(dataParse[0][i])
-            if (!(quantity in quantities))
-                quantities[quantity] = {
-                    handlingCharge: dataParse[1][i],
-                    markUp: dataParse[2][i]
-                }
-        }
-        for (let i = 7; i < dataParse.length; i++) {
-            if (dataParse[i][1] === undefined)
-                break
-            const mpn = dataParse[i][1]
-            const brand = dataParse[i][2]
-            const qty = dataParse[i][3]
-            const remarks = dataParse[i][4] === undefined ? '' : dataParse[i][4]
-            if (qty != 0) {
-                stock[mpn] = {
-                    brand,
-                    qty,
-                    remarks
-                }
-            }
-        }
-    }
-
-    const parseOpenPoPriceList = (data) => {
-        let renderedData = XLSX.read(data, { type: 'binary' });
-        const dataParse = XLSX.utils.sheet_to_json(renderedData.Sheets[renderedData.SheetNames[0]], { header: 1 });
         for (let i = 1; i < dataParse.length; i++) {
-            if (dataParse[i][1] === undefined)
-                break
-            const mpn = dataParse[i][0]
-            const opoCurr = dataParse[i][1]
-            const opoPrice = dataParse[i][2]
-            const opoDate = excelDateToJSDate(dataParse[i][3])
+            let stockCode = dataParse[i][0]
+            let cpoDate = dataParse[i][1]
+            let moq = dataParse[i][2]
+            let price = dataParse[i][3]
 
-            if (mpn in stock) {
-                // check for existing entry (check for date key)
-                if (stock[mpn]['opoDate'] != null) {
-                    // compare date
-                    if ((stock[mpn]['opoDate'] === opoDate.getTime() && (stock[mpn]['opoPrice'] * exchange[stock[mpn]['opoCurr']] < opoPrice * exchange[opoCurr])) || stock[mpn]['opoDate'] < opoDate.getTime()) {
-                        // replace existing item
-                        stock[mpn] = {
-                            ...stock[mpn],
-                            opoCurr,
-                            opoPrice,
-                            opoDate
-                        }
-                    }
-                } else {
-                    // set item
-                    stock[mpn] = {
-                        ...stock[mpn],
-                        opoCurr,
-                        opoPrice,
-                        opoDate
-                    }
+            console.log(stockCode, excelDateToJSDate(cpoDate), moq, price)
+
+            if (!(stockCode in dd) || (stockCode in dd && excelDateToJSDate(cpoDate) > excelDateToJSDate(dd[stockCode]["customer_date"]))) {
+                dd[stockCode] = {
+                    "customer_date": excelDateToJSDate(cpoDate),
+                    "moq": moq,
+                    "customer_price": price,
                 }
             }
+
         }
     }
 
-    const parseGoodsReceivedPriceList = (data) => {
+    const parseSupplierPriceList = (data) => {
+        let renderedData = XLSX.read(data, { type: 'binary' });
+        const dataParse = XLSX.utils.sheet_to_json(renderedData.Sheets[renderedData.SheetNames[0]], { header: 1 });
+
+        for (let i = 1; i < dataParse.length; i++) {
+            let receiveDate = dataParse[i][0]
+            let stockCode = dataParse[i][1]
+            let price = dataParse[i][2]
+
+            if (receiveDate === "Forwarder :") {
+                break
+            }
+            
+            console.log(stockCode, excelDateToJSDate(receiveDate), price)
+
+            if (!(stockCode in dd)) {
+                dd[stockCode] = {
+                    "receive_date": excelDateToJSDate(receiveDate),
+                    "supply_price": price,
+                }
+            } else if (!(dd[stockCode]["receive_date"] in dd[stockCode])) {
+                dd[stockCode] = {
+                    ...dd[stockCode],
+                    "receive_date": excelDateToJSDate(receiveDate),
+                    "supply_price": price,
+                }
+            } else if(excelDateToJSDate(receiveDate) > excelDateToJSDate(dd[stockCode]["receive_date"])){
+                dd[stockCode] = {
+                    ...dd[stockCode],
+                    "receive_date": excelDateToJSDate(receiveDate),
+                    "supply_price": price,
+                }
+            }
+        }
+
+        for (let d in dd) {
+            console.log(d, dd[d])
+        }
+    }
+
+    const parseStockList = (data) => {
         let renderedData = XLSX.read(data, { type: 'binary' });
         const dataParse = XLSX.utils.sheet_to_json(renderedData.Sheets[renderedData.SheetNames[0]], { header: 1 });
         for (let i = 1; i < dataParse.length; i++) {
@@ -133,11 +129,11 @@ const Compare = () => {
         var reader = new FileReader();
         reader.onload = function (e) {
             if (fileNo === 1)
-                parseStockAvailbleFile(e.target.result)
+                parseStockList(e.target.result)
             else if (fileNo === 2)
-                parseOpenPoPriceList(e.target.result)
+                parseCustomerPriceList(e.target.result)
             else
-                parseGoodsReceivedPriceList(e.target.result)
+                parseSupplierPriceList(e.target.result)
         };
         reader.readAsBinaryString(f)
     }
@@ -201,19 +197,19 @@ const Compare = () => {
     return (
         <div className={classes.root}>
             <span style={{ fontSize: '30px', marginBottom: '30px', textAlign: 'center', fontWeight: 'bold' }}>
-                Price Comparison Compiler
+                Online Stock Pricing
             </span>
             <div className={classes.fileUploadContainer} style={{ flexDirection: 'row', width: '60%' }}>
                 <div className={classes.fileUploadWrapper} style={{ width: '30%' }}>
-                    <span className={classes.label}>Stock Available</span>
+                    <span className={classes.label}>Stock List</span>
                     <Input onChange={(event) => onFileChange(event, 1)} type="file" className={classes.fileUpload} />
                 </div>
                 <div className={classes.fileUploadWrapper} style={{ width: '30%' }}>
-                    <span className={classes.label}>Open Po Price List</span>
+                    <span className={classes.label}>Customer Price</span>
                     <Input onChange={(event) => onFileChange(event, 2)} type="file" className={classes.fileUpload} />
                 </div>
                 <div className={classes.fileUploadWrapper} style={{ width: '30%' }}>
-                    <span className={classes.label}>Goods Received Price List</span>
+                    <span className={classes.label}>Supplier Price</span>
                     <Input onChange={(event) => onFileChange(event, 3)} type="file" className={classes.fileUpload} />
                 </div>
             </div>

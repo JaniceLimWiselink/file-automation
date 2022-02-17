@@ -2189,15 +2189,7 @@
     "object-path" "0.11.4"
     "regex-parser" "2.2.10"
 
-"adler-32@^1.2.0":
-  "integrity" "sha1-aj5r8KY5ALoVZSgIyxXGgT0aXyU="
-  "resolved" "https://registry.npmjs.org/adler-32/-/adler-32-1.2.0.tgz"
-  "version" "1.2.0"
-  dependencies:
-    "exit-on-epipe" "~1.0.1"
-    "printj" "~1.1.0"
-
-"adler-32@~1.2.0":
+"adler-32@^1.2.0", "adler-32@~1.2.0":
   "integrity" "sha1-aj5r8KY5ALoVZSgIyxXGgT0aXyU="
   "resolved" "https://registry.npmjs.org/adler-32/-/adler-32-1.2.0.tgz"
   "version" "1.2.0"
@@ -4066,7 +4058,7 @@
     "whatwg-mimetype" "^2.2.0"
     "whatwg-url" "^7.0.0"
 
-"dayjs@^1.8.34":
+"dayjs@^1.10.7", "dayjs@^1.8.34":
   "integrity" "sha512-P6twpd70BcPK34K26uJ1KT3wlhpuOAPoMwJzpsIWUxHZ7wpmbdZL/hQqBDfz7hGurYSa5PhzdhDHtt319hL3ig=="
   "resolved" "https://registry.npmjs.org/dayjs/-/dayjs-1.10.7.tgz"
   "version" "1.10.7"
@@ -4397,6 +4389,11 @@
   "integrity" "sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw=="
   "resolved" "https://registry.npmjs.org/dotenv/-/dotenv-8.2.0.tgz"
   "version" "8.2.0"
+
+"downloadjs@^1.4.7":
+  "integrity" "sha1-9p+W+UDg0FU9rCkROYZaPNAQHjw="
+  "resolved" "https://registry.npmjs.org/downloadjs/-/downloadjs-1.4.7.tgz"
+  "version" "1.4.7"
 
 "duplexer@^0.1.1":
   "integrity" "sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg=="

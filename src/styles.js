@@ -51,18 +51,17 @@ export const useStyles = makeStyles({
     download: {
         backgroundColor: 'darkorange',
         color: 'white',
-        width: '200px',
-        height: '60px',
+        width: '180px',
+        height: '50px',
         borderRadius: '5px',
         fontSize: '1.1em',
         border: 'none',
         transition: '1s',
-        fontWeight: 'bold',
         textTransform: 'uppercase',
-
         '&:hover': {
             backgroundColor: '#ff6500',
             transition: '1s',
+            cursor: 'pointer'
         },
     },
 

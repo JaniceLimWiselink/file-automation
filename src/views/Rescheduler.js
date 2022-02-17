@@ -7,7 +7,7 @@ import Excel from 'exceljs';
 import { saveAs } from 'file-saver'
 
 const Rescheduler = () => {
-
+    console.log('updated!')
     const padding = "_____"
 
     const classes = useStyles()
@@ -41,8 +41,14 @@ const Rescheduler = () => {
         return 0;
     }
 
+    const parseDate = (num) => {
+        var utc_value = Math.floor(num- 25569) * 86400;
+        var date_info = new Date(utc_value * 1000);
+        return date_info;
+    }
+
     const readRaw = (data) => {
-        let renderedData = XLSX.read(data, { type: 'binary', cellDates: true });
+        let renderedData = XLSX.read(data, { type: 'binary', cellDates: false, callNF: false, cellText: false });
         const dataParse = XLSX.utils.sheet_to_json(renderedData.Sheets[renderedData.SheetNames[0]], { header: 1 });
         for (let i = 2; i < dataParse.length; i++) {
             // process system data first
@@ -53,7 +59,10 @@ const Rescheduler = () => {
 
             let stock_code = isEmptyOrUndefined(dataParse[i][3]) ? "" : dataParse[i][3]
             let sys_del_qty = isEmptyOrUndefined(dataParse[i][4]) ? "" : dataParse[i][4]
+
             let sys_del_date = isEmptyOrUndefined(dataParse[i][5]) ? "" : dataParse[i][5]
+            sys_del_date = parseDate(sys_del_date)
+
             let sys_stock = isEmptyOrUndefined(dataParse[i][6]) ? "" : dataParse[i][6]
             let sys_remarks = isEmptyOrUndefined(dataParse[i][7]) ? "" : dataParse[i][7]
 
@@ -93,6 +102,8 @@ const Rescheduler = () => {
             let cus_po_line = isEmptyOrUndefined(dataParse[i][11]) ? "" : dataParse[i][11]
             let cus_qty = isEmptyOrUndefined(dataParse[i][12]) ? "" : dataParse[i][12]
             let cus_date = isEmptyOrUndefined(dataParse[i][13]) ? "" : dataParse[i][13]
+            cus_date = parseDate(cus_date)
+
             let cus_action = isEmptyOrUndefined(dataParse[i][14]) ? "" : dataParse[i][14]
 
             // ensure row is not empty
@@ -160,7 +171,7 @@ const Rescheduler = () => {
         worksheet.getCell('I1').alignment = { vertical: 'middle', horizontal: 'center' };
 
         // main header
-        worksheet.addRow(['Line', 'CPO Number', 'CPN', 'Stock Code', 'Del-Qty', 'Del-Date', 'Stock', 'Remarks', 'PO LINE', 'Open PO Qty', 'Reschedule Date', 'Action Request'])
+        worksheet.addRow(['Line', 'CPO Number', 'CPN', 'Stock Code', 'Del-Qty', 'Del-Date', 'Stock', 'Remarks', 'Report Line', 'Open PO Qty', 'Reschedule Date', 'Action Request'])
         let fillStyleLB = {
             type: 'pattern',
             pattern: 'solid',
@@ -236,7 +247,7 @@ const Rescheduler = () => {
     return (
         <div className={classes.root}>
             <span style={{ fontSize: '30px', marginBottom: '30px', textAlign: 'center', fontWeight: 'bold' }}>
-                Plexus Forecast Comparison
+                Reschedule Report
             </span>
             <div className={classes.fileUploadContainer} style={{ flexDirection: 'row', width: '60%' }}>
                 <div className={classes.fileUploadWrapper}>

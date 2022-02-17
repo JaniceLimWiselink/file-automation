@@ -12,6 +12,8 @@ import PlexusForecast from './views/PlexusForecast.js';
 import JabilForecast from './views/JabilForecast.js';
 import PlexusEmail from './views/PlexusEmail.js';
 import Rescheduler from './views/Rescheduler.js';
+import QuotationCompare from './views/QuotationCompare.js';
+import QuotationCompile from './views/QuotationCompile.js';
 
 
 const drawerWidth = 240;
@@ -19,7 +21,7 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
-    fontFamily:'AirbnbCereal-Medium'
+    // fontFamily:'AirbnbCereal-Medium'
   },
   appBar: {
     width: `calc(100% - ${drawerWidth}px)`,
@@ -31,7 +33,8 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
-    backgroundColor: '#252e3e'
+    backgroundColor: '#2e4574',
+    border: 'none'
   },
   content: {
     flexGrow: 1,
@@ -67,7 +70,9 @@ function App() {
           <Route path="/file-automation/jabil/forecast" render={() => <JabilForecast />} />
           <Route path="/file-automation/ecommerce/compare" render={() => <Compare />} />
           <Route path="/file-automation/ecommerce/compile" render={() => <Compile />} />
-          <Route path="/file-automation/ecommerce/reschedule" render={() => <Rescheduler />} />
+          <Route path="/file-automation/admin/reschedule" render={() => <Rescheduler />} />
+          <Route path="/file-automation/admin/transfer-quotation" render={() => <QuotationCompare />} />
+          <Route path="/file-automation/admin/input-supplier-price" render={() => <QuotationCompile />} />
         </Switch>
       </main>
     </div>
