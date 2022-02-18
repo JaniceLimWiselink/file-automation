@@ -8,24 +8,13 @@ const Compare = () => {
 
     const classes = useStyles()
 
-    // initialize defaulr variables
-    const [exchange, setExchange] = useState({
-        EURO: 1,
-        USD: 1
-    })
-
-    // will contain mark-up % & handling charges (USD)
-    const [quantities, setQuantities] = useState({})
-
-    // stock items to write to file
-    const [stock, setStock] = useState({})
-
     const [dd, setDD] = useState({})
+
+    const [arr, setArr] = useState([])
 
     const parseCustomerPriceList = (data) => {
         let renderedData = XLSX.read(data, { type: 'binary' });
         const dataParse = XLSX.utils.sheet_to_json(renderedData.Sheets[renderedData.SheetNames[0]], { header: 1 });
-        console.log(dataParse)
 
         for (let i = 1; i < dataParse.length; i++) {
             let stockCode = dataParse[i][0]
@@ -33,16 +22,27 @@ const Compare = () => {
             let moq = dataParse[i][2]
             let price = dataParse[i][3]
 
-            console.log(stockCode, excelDateToJSDate(cpoDate), moq, price)
-
-            if (!(stockCode in dd) || (stockCode in dd && excelDateToJSDate(cpoDate) > excelDateToJSDate(dd[stockCode]["customer_date"]))) {
+            if (!(stockCode in dd)) {
                 dd[stockCode] = {
                     "customer_date": excelDateToJSDate(cpoDate),
                     "moq": moq,
                     "customer_price": price,
                 }
+            } else if (!(dd[stockCode]["customer_date"] in dd[stockCode])) {
+                dd[stockCode] = {
+                    ...dd[stockCode],
+                    "customer_date": excelDateToJSDate(cpoDate),
+                    "moq": moq,
+                    "customer_price": price,
+                }
+            } else if (excelDateToJSDate(cpoDate) > excelDateToJSDate(dd[stockCode]["customer_date"])) {
+                dd[stockCode] = {
+                    ...dd[stockCode],
+                    "customer_date": excelDateToJSDate(cpoDate),
+                    "moq": moq,
+                    "customer_price": price,
+                }
             }
-
         }
     }
 
@@ -55,11 +55,8 @@ const Compare = () => {
             let stockCode = dataParse[i][1]
             let price = dataParse[i][2]
 
-            if (receiveDate === "Forwarder :") {
-                break
-            }
-            
-            console.log(stockCode, excelDateToJSDate(receiveDate), price)
+            if (receiveDate === "Forwarder :")
+                continue
 
             if (!(stockCode in dd)) {
                 dd[stockCode] = {
@@ -72,7 +69,7 @@ const Compare = () => {
                     "receive_date": excelDateToJSDate(receiveDate),
                     "supply_price": price,
                 }
-            } else if(excelDateToJSDate(receiveDate) > excelDateToJSDate(dd[stockCode]["receive_date"])){
+            } else if (excelDateToJSDate(receiveDate) > excelDateToJSDate(dd[stockCode]["receive_date"])) {
                 dd[stockCode] = {
                     ...dd[stockCode],
                     "receive_date": excelDateToJSDate(receiveDate),
@@ -80,46 +77,15 @@ const Compare = () => {
                 }
             }
         }
-
-        for (let d in dd) {
-            console.log(d, dd[d])
-        }
     }
 
     const parseStockList = (data) => {
         let renderedData = XLSX.read(data, { type: 'binary' });
         const dataParse = XLSX.utils.sheet_to_json(renderedData.Sheets[renderedData.SheetNames[0]], { header: 1 });
-        for (let i = 1; i < dataParse.length; i++) {
-            if (dataParse[i][1] === undefined)
-                break
-            const mpn = dataParse[i][1]
-            const grCurr = dataParse[i][2]
-            const grPrice = dataParse[i][3]
-            const grDate = excelDateToJSDate(dataParse[i][0])
 
-            if (mpn in stock) {
-                // check for existing entry (check for date key)
-                if (stock[mpn]['grDate'] != null) {
-                    // compare date
-                    if ((stock[mpn]['grDate'] === grDate.getTime() && (stock[mpn]['grPrice'] * exchange[stock[mpn]['grCurr']] < grPrice * exchange[grCurr])) || stock[mpn]['grDate'] < grDate.getTime()) {
-                        // replace existing item
-                        stock[mpn] = {
-                            ...stock[mpn],
-                            grCurr,
-                            grPrice,
-                            grDate
-                        }
-                    }
-                } else {
-                    // set item
-                    stock[mpn] = {
-                        ...stock[mpn],
-                        grCurr,
-                        grPrice,
-                        grDate
-                    }
-                }
-            }
+        for (let i = 1; i < dataParse.length; i++) {
+            let stockCode = dataParse[i][0]
+            arr.push(stockCode)
         }
     }
 
@@ -146,41 +112,27 @@ const Compare = () => {
     }
 
     const downloadFile = () => {
-
         /* Write and Download File */
         let workbookRows = []
-        let mpns = Object.keys(stock)
-        let myHeader = ['Line', 'MPN', 'Brand', 'Stock', 'Curr (GR)', 'Price (GR)', 'Curr (OPO)', 'Price (OPO)']
-        for (let i = 0; i < Object.keys(quantities); i++) {
-            myHeader.push(Object.keys(quantities)[i])
-        }
+        let myHeader = ['Stock Code (Max 30 Chars)', "MOQ", "Supplier Price", "Customer Price"]
 
-        for (let i = 0; i < mpns.length; i++) {
+        for (let i = 0; i < arr.length; i++) {
             let row = {}
-            let mpn = mpns[i]
-            row['Line'] = i + 1
-            row['MPN'] = mpn
-            row['Brand'] = stock[mpn]['brand']
-            row['Stock'] = stock[mpn]['qty']
-            row['Curr (GR)'] = stock[mpn]['grCurr']
-            row['Price (GR)'] = stock[mpn]['grPrice']
-            row['Curr (OPO)'] = stock[mpn]['opoCurr']
-            row['Price (OPO)'] = stock[mpn]['opoPrice']
+            let stockCode = arr[i]
+            if (stockCode in dd) {
+                let moq = dd[stockCode]["moq"]
+                let supplier_price = dd[stockCode]["supply_price"]
+                let customer_price = dd[stockCode]["customer_price"]
 
-            let grPriceUSD = stock[mpn]['grPrice'] * exchange[stock[mpn]['grCurr']]
-            let opoPriceUSD = stock[mpn]['opoPrice'] * exchange[stock[mpn]['opoCurr']]
-
-            // loop and add quantity + calculate unit price
-            let highestPrice = grPriceUSD > opoPriceUSD ? grPriceUSD : opoPriceUSD
-
-            for (let j = 0; j < Object.keys(quantities).length; j++) {
-                let quantity = Object.keys(quantities)[j]
-                let markUp = quantities[quantity]['markUp']
-                let handlingCharge = quantities[quantity]['handlingCharge']
-
-                // Formula: [Unit Price + Unit price x (Mark Up% / 100)+Handling Charges] x QTY Break ]x ForEx / QTY Break
-                let unitPrice = (((1 + markUp * 1.0 / 100) * highestPrice) * quantity + handlingCharge) / quantity
-                row[quantity] = isNaN(unitPrice) ? '-' : unitPrice
+                row['Stock Code (Max 30 Chars)'] = stockCode
+                row['MOQ'] = moq === undefined ? "-" : moq
+                row['Supplier Price'] = supplier_price === undefined ? "-" : supplier_price
+                row['Customer Price'] = customer_price === undefined ? "-" : customer_price
+            } else {
+                row['Stock Code (Max 30 Chars)'] = stockCode
+                row['MOQ'] = "-"
+                row['Supplier Price'] = "-"
+                row['Customer Price'] = "-"
             }
             workbookRows.push(row)
         }
@@ -188,8 +140,8 @@ const Compare = () => {
         const ws = XLSX.utils.json_to_sheet(workbookRows, { header: myHeader })
         let wb = { Sheets: { 'data': ws }, SheetNames: ['data'] }
         const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-        const dd = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
-        FileSaver.saveAs(dd, 'Data.xlsx');
+        const f = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8' });
+        FileSaver.saveAs(f, 'Data.xlsx');
 
     }
 
