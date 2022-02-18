@@ -44,7 +44,7 @@ const routes = [
         component: JabilForecast
     },
     {
-        path: '/file-automation/ecommerce/compare',
+        path: '/file-automation/ecommerce/online-stock-pricing',
         name: 'Online Stock Pricing',
         icon: <CompareIcon size={25} style={{ color: '#fff' }}
         />,
