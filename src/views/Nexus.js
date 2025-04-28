@@ -20,9 +20,12 @@ const Nexus = () => {
         let renderedData = XLSX.read(data, { type: 'binary' });
         const dataParse = XLSX.utils.sheet_to_json(renderedData.Sheets[renderedData.SheetNames[0]], { header: 1 });
         for (let i = 1; i < dataParse.length; i++) {
-            mpn[dataParse[i][0]] = dataParse[i][1]
+            mpn[dataParse[i][0]] = {
+                mpn: dataParse[i][1],
+                moq: dataParse[i][2],
+                lt: dataParse[i][3]
+            }
         }
-        // console.log(mpn)
     }
 
     const readRaw = (data) => {
@@ -34,6 +37,10 @@ const Nexus = () => {
         headers.push("Commit ETA")
         headers.push("Balance Qty")
         headers.push("Balance Qty with Commit Qty ")
+        headers.push("MOQ")
+        headers.push("LT")
+        headers.push("Late Commit ETA")
+        headers.push("Week Counter")
         setHeaders(headers)
 
         for (let i = 1; i < dataParse.length; i++) {
@@ -49,7 +56,6 @@ const Nexus = () => {
     }
 
     const parseDate = (input) => {
-        console.log(input, typeof input)
         if(input === undefined){
             return null
         }
@@ -85,6 +91,10 @@ const Nexus = () => {
                 rowInfo[i].forEach((val, idx) => {
                     rowData[headers[idx]] = val
                 })
+                if (rowData['PlexusPartNumber'] in mpn) {
+                    rowData['MOQ'] = mpn[rowData['PlexusPartNumber']].moq
+                    rowData['LT'] = mpn[rowData['PlexusPartNumber']].lt
+                }
                 wbData.push(rowData)
                 i++
             }
@@ -98,7 +108,7 @@ const Nexus = () => {
                 // has a data row above - indicates that this is the first row after a block of data
                 if (Object.keys(wbData[i - 1]).length > 1) {
                     if (wbData[i - 1]['PlexusPartNumber'] in mpn) {
-                        row['PlexusPartNumber'] = mpn[wbData[i - 1]['PlexusPartNumber']]
+                        row['PlexusPartNumber'] = mpn[wbData[i - 1]['PlexusPartNumber']].mpn
                     }
                 }
             }
@@ -108,13 +118,17 @@ const Nexus = () => {
 
         ws['!ref'] = XLSX.utils.encode_range({
             s: { r: 0, c: 0 },
-            e: { r: wbData.length + 1, c: 21 }
+            e: { r: wbData.length + 1, c: 24 }
         })
 
         wbData.forEach((row, i) => {
             let er = i + 2
             let balanceQty = ''
             let balanceQtyCommit = ''
+            let commitEta = ''
+            let weekCounter = ''
+            let moq = ''
+            let lt = ''
             if (Object.keys(wbData[i]).length > 1) {
                 if (i == 0 || (Object.keys(wbData[i - 1]).length <= 1 && Object.keys(wbData[i - 2]).length <= 1)) {
                     balanceQty = `H${er}+I${er}+O${er}-N${er}`
@@ -123,14 +137,26 @@ const Nexus = () => {
                     balanceQty = `T${er - 1}-N${er}+O${er}`
                     balanceQtyCommit = `U${er - 1}-N${er}+O${er}+R${er}`
                 }
+                commitEta = `=IF(S${er}>P${er},1,"")`
+                weekCounter = `=INT((TODAY()-P${er})/7)`
+                moq = row['MOQ']
+                lt = row['LT']
                 // let marker = `IF(U${er-1}>=0, IF(U${er}<=0, "<-- Highlight row",""),"")`
 
                 let balanceQtyCellRef = XLSX.utils.encode_cell({ r: er - 1, c: 19 })
                 let balanceQtyCommitCellRef = XLSX.utils.encode_cell({ r: er - 1, c: 20 })
+                let moqCellRef = XLSX.utils.encode_cell({ r: er - 1, c: 21 })
+                let ltCellRef = XLSX.utils.encode_cell({ r: er - 1, c: 22 })
+                let commitEtaCellRef = XLSX.utils.encode_cell({ r: er - 1, c: 23 })
+                let weekCounterCellRef = XLSX.utils.encode_cell({ r: er - 1, c: 24 })
                 // let markerCellRef = XLSX.utils.encode_cell({ r: er - 1, c: 21 })
 
                 ws[balanceQtyCellRef] = { f: balanceQty }
                 ws[balanceQtyCommitCellRef] = { f: balanceQtyCommit }
+                ws[commitEtaCellRef] = { f: commitEta }
+                ws[weekCounterCellRef] = { f: weekCounter }
+                ws[moqCellRef] = { v: moq }
+                ws[ltCellRef] = { v: lt }
                 // ws[markerCellRef] = { f: marker }
             }
         })
