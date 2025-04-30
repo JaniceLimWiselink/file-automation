@@ -60,7 +60,6 @@ const QuotationCompare = () => {
 
                 // Create a blob from the response
                 const blob = await response.blob();
-                console.log("blob size: " + blob.size);
                 
                 // Create a download link
                 const url = window.URL.createObjectURL(blob);
