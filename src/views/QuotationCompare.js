@@ -37,33 +37,47 @@ const QuotationCompare = () => {
         }
 
         const formData = new FormData();
-        formData.append("old", old);
-        formData.append("new", newF);
+        formData.append("file1", old);
+        formData.append("file2", newF);
 
         try {
-            await axios.post("https://157.245.198.24/compile", formData,
-                {
-                    headers:
-                    {
-                        'Content-Disposition': "attachment; filename=output.xlsx",
-                        'Content-Type': 'multipart/form-data'
-                    },
-                    responseType: 'arraybuffer',
-                }
-            ).then(res => {
-                const url = window.URL.createObjectURL(new Blob([res.data]));
-                const link = document.createElement('a');
-                link.href = url;
-                link.setAttribute('download', 'output.xlsx');
-                document.body.appendChild(link);
-                link.click();
-            }).catch(err => {
-                console.log(err)
-                alert(err)
+            const response = await fetch("http://18.140.57.120:8080/upload", {
+                method: 'POST',
+                body: formData
             });
-            setLoading(false)
+
+            if (response.ok) {
+                // Get the filename from the Content-Disposition header
+                const contentDisposition = response.headers.get('Content-Disposition');
+                let filename = 'output.xlsx'; // Default filename
+                
+                if (contentDisposition) {
+                    const filenameMatch = contentDisposition.match(/filename="(.+)"/);
+                    if (filenameMatch) {
+                        filename = filenameMatch[1];
+                    }
+                }
+
+                // Create a blob from the response
+                const blob = await response.blob();
+                console.log("blob size: " + blob.size);
+                
+                // Create a download link
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                a.remove();
+            } else {
+                const error = await response.json();
+                alert(`Error: ${error.error}`)
+            }
         } catch (error) {
-            console.log(error)
+            alert(`Error: ${error.message}`)
+        } finally {
             setLoading(false)
         }
 
