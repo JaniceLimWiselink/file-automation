@@ -4,7 +4,7 @@ import Sidebar from './components/Sidebar.js';
 import Drawer from '@material-ui/core/Drawer';
 
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { Route, Switch } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Nexus from './views/Nexus';
 import Compare from './views/Compare.js';
 import Compile from './views/Compile.js';
@@ -56,24 +56,27 @@ function App() {
           }}
           variant="permanent"
           open
+          ModalProps={{
+            keepMounted: true,
+          }}
         >
           <Sidebar />
         </Drawer>
       </nav>
       <main className={classes.content}>
         <div className={classes.toolbar} />
-        <Switch>
+        <Routes>
           <Route exact path="/" render={() => <div>WISELINK</div>} />
-          <Route path="/plexus/jit" render={() => <Nexus />} />
-          <Route path="/plexus/forecast" render={() => <PlexusForecast />} />
-          <Route path="/plexus/email" render={() => <PlexusEmail />} />
-          <Route path="/jabil/forecast" render={() => <JabilForecast />} />
-          <Route path="/ecommerce/compare" render={() => <Compare />} />
-          <Route path="/ecommerce/compile" render={() => <Compile />} />
-          <Route path="/admin/reschedule" render={() => <Rescheduler />} />
-          <Route path="/admin/transfer-quotation" render={() => <QuotationCompare />} />
-          <Route path="/admin/input-supplier-price" render={() => <QuotationCompile />} />
-        </Switch>
+          <Route path="/plexus/jit" element={<Nexus />} />
+          <Route path="/plexus/forecast" element={<PlexusForecast />} />
+          <Route path="/plexus/email" element={<PlexusEmail />} />
+          <Route path="/jabil/forecast" element={<JabilForecast />} />
+          <Route path="/ecommerce/online-stock-pricing" element={<Compare />} />
+          <Route path="/ecommerce/compile" element={<Compile />} />
+          <Route path="/admin/reschedule" element={<Rescheduler />} />
+          <Route path="/admin/transfer-quotation" element={<QuotationCompare />} />
+          <Route path="/admin/input-supplier-price" element={<QuotationCompile />} />
+        </Routes>
       </main>
     </div>
   );
