@@ -63,16 +63,16 @@ function App() {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         <Switch>
-          {/* <Route exact path="/file-automation" render={() => <div>WISELINK</div>} /> */}
-          <Route path="/file-automation/plexus/jit" render={() => <Nexus />} />
-          <Route path="/file-automation/plexus/forecast" render={() => <PlexusForecast />} />
-          <Route path="/file-automation/plexus/email" render={() => <PlexusEmail />} />
-          <Route path="/file-automation/jabil/forecast" render={() => <JabilForecast />} />
-          <Route path="/file-automation/ecommerce/compare" render={() => <Compare />} />
-          <Route path="/file-automation/ecommerce/compile" render={() => <Compile />} />
-          <Route path="/file-automation/admin/reschedule" render={() => <Rescheduler />} />
-          <Route path="/file-automation/admin/transfer-quotation" render={() => <QuotationCompare />} />
-          <Route path="/file-automation/admin/input-supplier-price" render={() => <QuotationCompile />} />
+          <Route exact path="/" render={() => <div>WISELINK</div>} />
+          <Route path="/plexus/jit" render={() => <Nexus />} />
+          <Route path="/plexus/forecast" render={() => <PlexusForecast />} />
+          <Route path="/plexus/email" render={() => <PlexusEmail />} />
+          <Route path="/jabil/forecast" render={() => <JabilForecast />} />
+          <Route path="/ecommerce/compare" render={() => <Compare />} />
+          <Route path="/ecommerce/compile" render={() => <Compile />} />
+          <Route path="/admin/reschedule" render={() => <Rescheduler />} />
+          <Route path="/admin/transfer-quotation" render={() => <QuotationCompare />} />
+          <Route path="/admin/input-supplier-price" render={() => <QuotationCompile />} />
         </Switch>
       </main>
     </div>

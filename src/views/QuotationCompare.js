@@ -41,7 +41,7 @@ const QuotationCompare = () => {
         formData.append("file2", newF);
 
         try {
-            const response = await fetch("http://18.140.57.120:8080/upload", {
+            const response = await fetch("https://api.wiselinkapp.com/upload", {
                 method: 'POST',
                 body: formData
             });
