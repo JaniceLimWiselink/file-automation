@@ -1,6 +1,6 @@
-import { makeStyles, colors } from '@material-ui/core'
+import { makeStyles } from "@mui/styles";
 
-export const useStyles = makeStyles({
+export const styles = (theme) => ({
     grow: {
         flexGrow: 1,
     },
@@ -26,20 +26,19 @@ export const useStyles = makeStyles({
     },
 
     root: {
-        marginTop: '50px',
-        justifyContent: 'center',
-        alignItems: 'center',
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%',
+        padding: "0em 1em", 
+        fontFamily: "AirbnbCereal-Bold",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
     },
     label: {
-        fontWeight: 'bold',
-        fontSize: '20px',
         paddingTop: '5px',
         paddingBottom: '5px',
         width: '100%',
-        textAlign: 'left'
+        textAlign: 'left',
+        fontSize: '1em',
     },
     inputWrapper: {
         margin: '20px 0px'
@@ -49,18 +48,20 @@ export const useStyles = makeStyles({
     },
 
     download: {
+        padding: '15px 30px',
+        borderRadius: '8px',
+        fontSize: '1em',
+
         backgroundColor: 'darkorange',
+        fontFamily: 'AirbnbCereal-Medium',
+
         color: 'white',
-        width: '180px',
-        height: '50px',
-        borderRadius: '5px',
-        fontSize: '1.1em',
         border: 'none',
-        transition: '1s',
+        transition: '0.5s',
         textTransform: 'uppercase',
         '&:hover': {
             backgroundColor: '#ff6500',
-            transition: '1s',
+            transition: '0.5s',
             cursor: 'pointer'
         },
     },
@@ -95,3 +96,7 @@ export const useStyles = makeStyles({
         justifyContent: 'space-between',
     }
 })
+
+// Create a useStyles hook for easy import
+const useStyles = makeStyles(styles);
+export default useStyles;

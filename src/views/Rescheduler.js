@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import * as XLSX from 'xlsx';
-import * as FileSaver from 'file-saver';
-import { useStyles } from '../styles'
-import { Input } from '@material-ui/core';
+import { styles } from '../styles';
+import useClasses from '../useClasses';
+import { Input } from '@mui/material';
 import Excel from 'exceljs';
 import { saveAs } from 'file-saver'
 
@@ -10,10 +10,7 @@ const Rescheduler = () => {
     console.log('updated!')
     const padding = "_____"
 
-    const classes = useStyles()
-
-    const [oldForecast, setOldForecast] = useState({})
-    const [newForecast, setNewForecast] = useState({})
+    const classes = useClasses(styles)
 
     const [store, setStore] = useState({})
 

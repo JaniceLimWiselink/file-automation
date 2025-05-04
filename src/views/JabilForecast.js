@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
-import { useStyles } from '../styles'
-import { Input } from '@material-ui/core';
+import { styles } from '../styles';
+import useClasses from '../useClasses';
+import { Input } from '@mui/material';
 
 const JabilForecast = () => {
 
-    const classes = useStyles()
+    const classes = useClasses(styles)
 
     const [oldForecast, setOldForecast] = useState({})
     const [newForecast, setNewForecast] = useState({})
@@ -104,7 +105,7 @@ const JabilForecast = () => {
 
     return (
         <div className={classes.root}>
-            <span style={{ fontSize: '30px', marginBottom: '30px', textAlign: 'center', fontWeight: 'bold' }}>
+            <span style={{ fontSize: '30px', marginBottom: '30px', textAlign: 'center' }}>
                 Jabil Forecast Comparison
             </span>
             <div className={classes.fileUploadContainer} style={{ flexDirection: 'row', width: '60%' }}>

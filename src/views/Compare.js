@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
-import { useStyles } from '../styles'
-import { Input } from '@material-ui/core';
+import { Input } from '@mui/material';
+import { styles } from '../styles';
+import useClasses from "../useClasses";
 
 const Compare = () => {
 
-    const classes = useStyles()
+    const classes = useClasses(styles)
 
     const [dd, setDD] = useState({})
 
@@ -148,7 +149,7 @@ const Compare = () => {
 
     return (
         <div className={classes.root}>
-            <span style={{ fontSize: '30px', marginBottom: '30px', textAlign: 'center', fontWeight: 'bold' }}>
+            <span style={{ fontSize: '30px', marginBottom: '30px', textAlign: 'center'}}>
                 Online Stock Pricing
             </span>
             <div className={classes.fileUploadContainer} style={{ flexDirection: 'row', width: '60%' }}>

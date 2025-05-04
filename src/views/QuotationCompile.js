@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { useStyles } from '../styles'
-import { Backdrop, CircularProgress, Input } from '@material-ui/core';
+import { styles } from '../styles';
+import useClasses from '../useClasses';
+import { Backdrop, CircularProgress, Input } from '@mui/material';
 import axios from 'axios';
 
 const QuotationCompile = () => {
-    const classes = useStyles()
+    const classes = useClasses(styles)
     const [loading, setLoading] = useState(false)
     const [inputFile, setInputFile] = useState(null)
     const [priceList, setPriceList] = useState(null)

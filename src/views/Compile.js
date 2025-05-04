@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
-import * as XLSX from 'xlsx';
-import * as FileSaver from 'file-saver';
-import { useStyles } from '../styles'
-import { Button, Input } from '@material-ui/core';
+import React, { useState } from 'react'
+import * as XLSX from 'xlsx'
+import * as FileSaver from 'file-saver'
+import { Input } from '@mui/material'
+
+import { styles } from '../styles'
+import useClasses from '../useClasses'
 
 const Compile = () => {
 
@@ -12,7 +14,7 @@ const Compile = () => {
   const [q, setQs] = useState({})
   const [titleColumn, setTitleColumn] = useState("")
 
-  const classes = useStyles()
+  const classes = useClasses(styles)
 
   const excelReader = (data, isFirstFile) => {
     let renderedData = XLSX.read(data, { type: 'binary' });

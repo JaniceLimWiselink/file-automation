@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import * as XLSX from 'xlsx';
-import { useStyles } from '../styles'
-import { Input, TextField } from '@material-ui/core';
-import { BrandingWatermark } from '@material-ui/icons';
+import { styles } from '../styles';
+import useClasses from '../useClasses';
+import { Input, TextField } from '@mui/material';
 import emailjs from 'emailjs-com';
 
 const PlexusEmail = () => {
 
-    const classes = useStyles()
+    const classes = useClasses(styles)
     const [info, setInfo] = useState({})
     const [ccEmail, setCCEmail] = useState("")
     const SERVICE_NUM = 'service_l8bn2oe'
@@ -136,7 +136,7 @@ const PlexusEmail = () => {
 
     return (
         <div className={classes.root}>
-            <span style={{ fontSize: '30px', marginBottom: '30px', textAlign: 'center', fontWeight: 'bold' }}>
+            <span style={{ fontSize: '30px', marginBottom: '30px', textAlign: 'center' }}>
                 Plexus Email
             </span>
             <div className={classes.fileUploadContainer} style={{ flexDirection: 'row', width: '60%' }}>

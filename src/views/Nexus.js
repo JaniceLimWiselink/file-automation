@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
-import * as XLSX from 'xlsx';
-import * as FileSaver from 'file-saver';
-import { useStyles } from '../styles'
-import { Input } from '@material-ui/core';
+import React, { useState } from 'react'
+import * as XLSX from 'xlsx'
+import * as FileSaver from 'file-saver'
+import { styles } from '../styles'
+import useClasses from '../useClasses'
 import { excelDateToJSDate } from '../utils'
+import { Box, Input } from '@mui/material'
 
 
 const Nexus = () => {
 
-    const classes = useStyles()
+    const classes = useClasses(styles)
 
     const [rowInfo, setRowInfo] = useState([])
 
@@ -169,11 +170,11 @@ const Nexus = () => {
 
 
     return (
-        <div className={classes.root}>
-            <span style={{ fontSize: '30px', marginBottom: '30px', textAlign: 'center', fontWeight: 'bold' }}>
+        <Box className={classes.root}>
+            <span style={{ fontSize: '30px', marginBottom: '30px', textAlign: 'center' }}>
                 Plexus JIT Program
             </span>
-            <div className={classes.fileUploadContainer} style={{ flexDirection: 'row', width: '60%' }}>
+            <div className={classes.fileUploadContainer} style={{ flexDirection: 'row', width: '60%', fontFamily: "AirbnbCereal-Medium" }}>
                 <div className={classes.fileUploadWrapper}>
                     <span className={classes.label}>Plexus forecast file</span>
                     <Input onChange={(event) => onFileChange(event, 1)} type="file" className={classes.fileUpload} />
@@ -188,7 +189,7 @@ const Nexus = () => {
                     Download
                 </button>
             </div>
-        </div>
+        </Box>
     );
 }
 

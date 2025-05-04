@@ -1,19 +1,21 @@
 import React from 'react'
-import Nexus from "./views/Nexus";
-import Compare from './views/Compare';
-import Compile from './views/Compile';
-import PlexusForecast from './views/PlexusForecast';
-import JabilForecast from './views/JabilForecast';
-import Rescheduler from './views/Rescheduler';
+import { IoMdBook } from 'react-icons/io'
+import { 
+    BurstMode as BurstModeIcon,
+    Compare as CompareIcon,
+    WbSunny as WbSunnyIcon,
+    Email as EmailIcon,
+    AccessTimeOutlined as AccessTimeIcon
+} from '@mui/icons-material'
 
-import { IoMdBook, } from 'react-icons/io'
-import BurstModeIcon from '@material-ui/icons/BurstMode';
-import CompareIcon from '@material-ui/icons/Compare';
-import WbSunnyIcon from '@material-ui/icons/WbSunny';
-import EmailIcon from '@material-ui/icons/Email';
-import AccessTimeIcon from '@material-ui/icons/AccessTimeOutlined';
-import QuotationCompare from './views/QuotationCompare';
-import QuotationCompile from './views/QuotationCompile';
+import Nexus from "./views/Nexus"
+import Compare from './views/Compare'
+import Compile from './views/Compile'
+import PlexusForecast from './views/PlexusForecast'
+import JabilForecast from './views/JabilForecast'
+import Rescheduler from './views/Rescheduler'
+import QuotationCompare from './views/QuotationCompare'
+import QuotationCompile from './views/QuotationCompile'
 
 const routes = [
     {

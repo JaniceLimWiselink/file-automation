@@ -1,160 +1,131 @@
-import React, { useState, useEffect } from 'react'
-import { makeStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import Divider from '@material-ui/core/Divider';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
+import React, { useState } from 'react'
+import { List, ListItem, ListItemText, Typography, Collapse, styled, Box } from "@mui/material";
 import { Link } from 'react-router-dom';
-import ListItemText from '@material-ui/core/ListItemText';
-import { Collapse, Typography } from '@material-ui/core';
 import routes from '../routes'
-import { StarBorder } from '@material-ui/icons';
-import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
+import {
+    ArrowRightOutlined,
+    ExpandMore,
+    ExpandLess,
+    Filter1Outlined,
+    Filter2Outlined,
+    Filter3Outlined,
+    Filter4Outlined,
+    Filter5Outlined,
+} from '@mui/icons-material';
+import { styles } from '../styles';
+import useClasses from '../useClasses';
 
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import { IoMdBook } from 'react-icons/io';
+const commonStyles = {
+  color: '#212b36',
+  padding: '20px 25px',
+  transition: 'background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+  cursor: 'pointer',
+  userSelect: 'none',
+  verticalAlign: 'middle',
+  appearance: 'none',
+  display: 'flex',
+  flexGrow: 1,
+  alignSelf: 'center',
+  minHeight: '44px',
+  '&:hover': {
+    backgroundColor: '#e0e0e0',
+  }
+};
 
-const drawerWidth = 240;
+const StyledListItem = styled(ListItem)(commonStyles);
+const StyledListItemText = styled(ListItemText)(commonStyles);
 
-const useStyles = makeStyles((theme) => ({
-    // necessary for content to be below app bar
-    toolbar: theme.mixins.toolbar,
-    '& .MuiDrawer-paperAnchorDockedLeft': {
-        borderRightWidth: 0
-    },
-    header: {
-        fontSize: 18,
-        color: '#fff',
-    },
-    listBody: {
-        backgroundColor: '#3f5c7c'
-    },
-    text: {
-        fontSize: 14,
-        color: '#fff',
-        marginLeft: '15px',
-    },
-    listItem: {
-        '&:hover': {
-            backgroundColor: '#324963',
-            transition: '0.3s'
-        },
-        transition: '0.3s'
-    }
-}));
+const Sidebar = () => {
+    const classes = useClasses(styles)
+    const [expandedSections, setExpandedSections] = useState({
+        plexus: true,
+        jabil: true,
+        ecomm: true,
+        admin: true,
+        quotation: true
+    });
 
+  const toggleSection = (section) => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [section]: !prev[section]
+    }));
+  };
 
-const Sidebar = (props) => {
+  const renderSection = (title, sectionKey, routeIndices) => (
+    <>
+      <StyledListItem onClick={() => toggleSection(sectionKey)} sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+      }}>
+        <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            {sectionKey === 'plexus' && <Filter1Outlined style={{ color: '#212b36' }} fontSize='small'/>}
+            {sectionKey === 'jabil' && <Filter2Outlined style={{ color: '#212b36' }} fontSize='small'/>}
+            {sectionKey === 'ecomm' && <Filter3Outlined style={{ color: '#212b36' }} fontSize='small'/>}
+            {sectionKey === 'quotation' && <Filter4Outlined style={{ color: '#212b36' }} fontSize='small'/>}
+            {sectionKey === 'admin' && <Filter5Outlined style={{ color: '#212b36' }} fontSize='small'/>}
+            <Typography sx={{
+                paddingLeft: "10px",
+                fontSize: "0.95em",
+                fontFamily: "AirbnbCereal-Medium"
+            }}>
+                {title}
+            </Typography>
+        </Box>
+        {expandedSections[sectionKey] ? 
+          <ExpandLess style={{ color: '#212b36' }} /> : 
+          <ExpandMore style={{ color: '#212b36' }} />
+        }
+      </StyledListItem>
+      <Collapse sx={{width: "100%", paddingLeft: "15px" }} in={expandedSections[sectionKey]} timeout="auto" unmountOnExit className={classes.listBody}>
+        <List sx={{
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+            padding: "0px"
+        }}>
+          {routeIndices.map(index => (
+            <StyledListItem 
+              key={routes[index].name} 
+              component={Link} 
+              to={routes[index].path} 
+              className={classes.listItem}
+              sx={{ width: '100%' }}
+            >
+              <ArrowRightOutlined style={{ color: '#212b36' }} fontSize='small'/>
+              <Typography
+                sx={{
+                    paddingLeft: "10px",
+                    fontSize: "0.85em",
+                    color: "#212b36",
+                    fontFamily: "AirbnbCereal-Book",
+                }}
+              >
+                {routes[index].name}
+              </Typography>
+            </StyledListItem>
+          ))}
+        </List>
+      </Collapse>
+    </>
+  );
 
-    const classes = useStyles();
-    const [plexus, setPlexus] = useState(true)
-    const [jabil, setJabil] = useState(true)
-    const [ecomm, setEcomm] = useState(true)
-    const [admin, setAdmin] = useState(true)
-    const [quotation, setQuotation] = useState(true)
-
-    const togglePlexus = () => {
-        setPlexus(!plexus)
-    }
-
-    const toggleJabil = () => {
-        setJabil(!jabil)
-    }
-
-    const toggleEcomm = () => {
-        setEcomm(!ecomm)
-    }
-
-    const toggleAdmin = () => {
-        setAdmin(!admin)
-    }
-
-    const toggleQuotation = () => {
-        setQuotation(!quotation)
-    }
-
-    return (
-        <div>
-            <List>
-                <ListItem onClick={togglePlexus}>
-                    <ListItemText primary="Plexus" className={classes.header} />
-                    {plexus ? <ExpandLess style={{ color: '#fff' }} /> : <ExpandMore style={{ color: '#fff' }} />}
-                </ListItem>
-                <Collapse in={plexus} timeout="auto" unmountOnExit className={classes.listBody}>
-                    <List component="div" disablePadding>
-                        <ListItem key={routes[0].name} component={Link} to={routes[0].path} className={classes.listItem}>
-                            <Typography className={classes.text}>{routes[0].name}</Typography>
-                        </ListItem>
-                        <ListItem key={routes[1].name} component={Link} to={routes[1].path} className={classes.listItem}>
-                            <Typography className={classes.text}>{routes[1].name}</Typography>
-                        </ListItem>
-                        <ListItem key={routes[2].name} component={Link} to={routes[2].path} className={classes.listItem}>
-                            <Typography className={classes.text}>{routes[2].name}</Typography>
-                        </ListItem>
-                    </List>
-                </Collapse>
-
-                <ListItem onClick={toggleJabil}>
-                    <ListItemText primary="Jabil" className={classes.header} />
-                    {jabil ? <ExpandLess style={{ color: '#fff' }} /> : <ExpandMore style={{ color: '#fff' }} />}
-                </ListItem>
-                <Collapse in={jabil} timeout="auto" unmountOnExit className={classes.listBody}>
-                    <List component="div" disablePadding>
-                        <ListItem key={routes[3].name} component={Link} to={routes[3].path} className={classes.listItem}>
-                            <Typography className={classes.text}>{routes[3].name}</Typography>
-                        </ListItem>
-                    </List>
-                </Collapse>
-
-                <ListItem onClick={toggleEcomm}>
-                    <ListItemText primary="Ecommerce" className={classes.header} />
-                    {ecomm ? <ExpandLess style={{ color: '#fff' }} /> : <ExpandMore style={{ color: '#fff' }} />}
-                </ListItem>
-                <Collapse in={ecomm} timeout="auto" unmountOnExit className={classes.listBody}>
-                    <List component="div" disablePadding>
-                        <ListItem key={routes[4].name} component={Link} to={routes[4].path} className={classes.listItem}>
-                            <Typography className={classes.text}>{routes[4].name}</Typography>
-                        </ListItem>
-                        <ListItem key={routes[5].name} component={Link} to={routes[5].path} className={classes.listItem}>
-                            <Typography className={classes.text}>{routes[5].name}</Typography>
-                        </ListItem>
-                    </List>
-                </Collapse>
-
-                <ListItem onClick={toggleQuotation}>
-                    <ListItemText primary="Quotation" className={classes.header} />
-                    {quotation ? <ExpandLess style={{ color: '#fff' }} /> : <ExpandMore style={{ color: '#fff' }} />}
-                </ListItem>
-                <Collapse in={quotation} timeout="auto" unmountOnExit className={classes.listBody}>
-                    <List component="div" disablePadding>
-                        <ListItem key={routes[7].name} component={Link} to={routes[7].path} className={classes.listItem}>
-                            <Typography className={classes.text}>{routes[7].name}</Typography>
-                        </ListItem>
-                        <ListItem key={routes[8].name} component={Link} to={routes[8].path} className={classes.listItem}>
-                            <Typography className={classes.text}>{routes[8].name}</Typography>
-                        </ListItem>
-                    </List>
-                </Collapse>
-
-                <ListItem onClick={toggleAdmin}>
-                    <ListItemText primary="Admin" className={classes.header} />
-                    {admin ? <ExpandLess style={{ color: '#fff' }} /> : <ExpandMore style={{ color: '#fff' }} />}
-                </ListItem>
-                <Collapse in={admin} timeout="auto" unmountOnExit className={classes.listBody}>
-                    <List component="div" disablePadding>
-                        <ListItem key={routes[6].name} component={Link} to={routes[6].path} className={classes.listItem}>
-                            <Typography className={classes.text}>{routes[6].name}</Typography>
-                        </ListItem>
-                    </List>
-                </Collapse>
-
-
-            </List>
-        </div>
-    );
-
-}
+  return (
+    <div className={classes.listWrapper}>
+      <List sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        padding: "0px",
+      }}>
+        {renderSection('Plexus', 'plexus', [0, 1, 2])}
+        {renderSection('Jabil', 'jabil', [3])}
+        {renderSection('Ecommerce', 'ecomm', [4, 5])}
+        {renderSection('Quotation', 'quotation', [7, 8])}
+        {renderSection('Admin', 'admin', [6])}
+      </List>
+    </div>
+  );
+};
 
 export default Sidebar;

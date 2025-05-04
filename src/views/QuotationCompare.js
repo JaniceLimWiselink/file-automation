@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { useStyles } from '../styles'
-import { Backdrop, CircularProgress, Input } from '@material-ui/core';
+import { styles } from '../styles';
+import useClasses from '../useClasses';
+import { Backdrop, CircularProgress, Input } from '@mui/material';
 import axios from 'axios';
 
 const QuotationCompare = () => {
-    const classes = useStyles()
+    const classes = useClasses(styles)
     const [loading, setLoading] = useState(false)
     const [newF, setNew] = useState(null)
     const [old, setOld] = useState(null)
@@ -87,7 +88,7 @@ const QuotationCompare = () => {
             <span style={{ fontSize: '30px', textAlign: 'center', fontWeight: 'bold' }}>
                 Update new Quotation file
             </span>
-            <span style={{ fontSize: '18px', margin: '30px 0px 30px 0px', textAlign: 'left', fontWeight: "normal" }}>
+            <span style={{ fontSize: '1em', margin: '30px 0px 30px 0px', textAlign: 'left', fontFamily: "AirbnbCereal-Book" }}>
                 Quotation File Type = Export quotation from system <br/>
                 Output file will follow the template of New Quotation. <br/>
                 It will add in details from the old file if the CPN & MPN matches. <br/>
